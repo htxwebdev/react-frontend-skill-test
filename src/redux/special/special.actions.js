@@ -36,3 +36,20 @@ export const fetchSpecialsApi = () => {
             })
     }
 }
+
+export const addSpecialApi = item => {
+    return dispatch => {
+        fetch('http://localhost:3001/specials', {
+            method: "POST",
+            body: JSON.stringify(item),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                dispatch(fetchSpecialsApi());
+            })
+    }
+}

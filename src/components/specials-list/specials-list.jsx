@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { fetchSpecialsApi } from '../../redux/special/special.actions';
+import { Link } from 'react-router-dom';
 
 import SpecialsListItem from '../specials-list-item/specials-list-item';
 
@@ -9,11 +8,18 @@ const SpecialsList = (props) => {
     const { specialsData } = props.specials;
 
     return (
-        <ul className="list-group">
-            {specialsData ?
-                specialsData.map((item, index) => <SpecialsListItem props={item} key={index} />)
-                : ''}
-        </ul>
+        <>
+            <div className="d-flex flex-row-reverse mb-3">
+                <Link to={`/add/special`} className="btn btn-primary">
+                    + Add New Special
+                </Link>
+            </div>
+            <ul className="list-group">
+                {specialsData ?
+                    specialsData.map((item, index) => <SpecialsListItem props={item} key={index} />)
+                    : ''}
+            </ul>
+        </>
     )
 }
 

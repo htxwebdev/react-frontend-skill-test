@@ -36,3 +36,19 @@ export const fetchRecipesApi = () => {
             })
     }
 }
+
+export const addRecipeApi = item => {
+    return dispatch => {
+        fetch('http://localhost:3001/recipes', {
+            method: "POST",
+            body: JSON.stringify(item),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                dispatch(fetchRecipesApi());
+            })
+    }
+}

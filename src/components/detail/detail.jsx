@@ -7,10 +7,10 @@ const Detail = (props) => {
     const imagePath = "http://localhost:3001";
 
     if (recipeData && specialsData) {
-        const recipeDetail = recipeData.filter(item => item.uuid == recipeId);
-        const { title, description, directions, cookTime, images, ingredients, prepTime, servings, postDate } = recipeDetail[0];
+        const recipeDetail = recipeData.filter(item => item.uuid === recipeId);
+        const { title, description, directions, cookTime, images, ingredients, prepTime, servings, postDate } = recipeDetail[0] || {};
 
-        const recipeSpecialIngredients = ingredients.map((item, index) => {
+        const recipeSpecialIngredients = ingredients !== undefined && ingredients.length ? ingredients.map((item, index) => {
             const specialsFound = specialsData.filter(special => item.uuid === special.ingredientId);
             const { text, title, type } = specialsFound[0] || {};
 
@@ -20,13 +20,15 @@ const Detail = (props) => {
                     {specialsFound.length ? <div className="py-1"><span class="badge badge-pill badge-primary">Special</span><p className="mb-0">{text}</p>{title} | Type: {type}</div> : ''}
                 </li>
             )
-        })
+        }) : null;
 
-        console.log(recipeSpecialIngredients)
+        const imageElement = images ? <img src={`${imagePath}${images.medium}`} className="img-fluid" alt={title} /> : <div className="bg-secondary text-center text-white h-25"><span className="d-flex justify-content-center align-items-center h-100">No image found</span></div>;
+
+        const directionsList = directions !== undefined && directions.length ? directions.map((item, index) => <li key={index}>{item.instructions}</li>) : '';
         return (
             <div className="row">
                 <div className="col col-md-4">
-                    <img src={`${imagePath}${images.medium}`} className="img-fluid" alt={title} />
+                    {imageElement}
 
                     <ul className="list-group list-group-horizontal">
                         <li className="list-group-item">Prep Time: {prepTime}</li>
@@ -45,7 +47,7 @@ const Detail = (props) => {
 
                     <h6>Directions</h6>
                     <ul>
-                        {directions.map((item, index) => <li key={index}>{item.instructions}</li>)}
+                        {directionsList}
                     </ul>
                 </div>
             </div>
